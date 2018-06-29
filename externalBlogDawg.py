@@ -17,13 +17,15 @@ rootLink.text = blogRootUrl
 for post in blogPosts:
     page = urlopen(post)
     soup = BeautifulSoup(page, "html.parser")
-
-    # <content:encoded> value
-    postBody = soup.select(".entry-content")[0]
-    bodyStr = str(postBody)
-
+    
     # create <item>
     item = etree.SubElement(channel, "item")
+
+    # set <content:encoded> 
+    postBody = soup.select(".entry-content")[0]
+    bodyStr = str(postBody)
+    content = etree.SubElement(item, 'contentencoded') 
+    content.text = etree.CDATA(bodyStr)
 
     # set <title>
     postTitle = soup.select(".entry-title")[0]
@@ -78,10 +80,6 @@ for post in blogPosts:
     postMetaD = soup.find('meta', attrs={'name':'description'})
     metaD = etree.SubElement(item, "excerptencoded")
     metaD.text = postMetaD["content"]
-
-    # set <content:encoded>
-    content = etree.SubElement(item, 'contentencoded') 
-    content.text = etree.CDATA(bodyStr)
 
     # TASK - FIGURE OUT COMMENTS
 
