@@ -30,7 +30,6 @@ def buildTags(tagName):
     catSlug = category.text.replace(' ', '-')
     category.set('nicename', catSlug)
 
-
 index = 1  
 authorList = []
 userAgent= {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'}
