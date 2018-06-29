@@ -52,9 +52,10 @@ for post in blogPosts:
         item = etree.SubElement(channel, 'item')
 
         # set <title>
-        postTitle = soup.find('title')
-        title = etree.SubElement(item, 'title')
-        title.text = postTitle.text
+        if soup.find('title'):
+            postTitle = soup.find('title')
+            title = etree.SubElement(item, 'title')
+            title.text = postTitle.text
 
         # set <pubDate>
         # TASK - FIGURE OUT HOW TO GET THE PUBLISH DATE WORKING WELL  
@@ -79,27 +80,31 @@ for post in blogPosts:
 
         # set <dc:creator> and create <wp:author>
         # TASK - THIS FEELS REALLY SPECIFIC
-        postAuthor = soup.find('a', attrs={'rel':'author'})
-        author = etree.SubElement(item, 'dccreator')
-        author.text = postAuthor.text
-        if author.text not in authorList:
-            buildAuthor(author.text)
+        if soup.find('a', attrs={'rel':'author'}):
+            postAuthor = soup.find('a', attrs={'rel':'author'})
+            author = etree.SubElement(item, 'dccreator')
+            author.text = postAuthor.text
+            if author.text not in authorList:
+                buildAuthor(author.text)
 
         # set <category>
-        postTags = soup.find_all('a', attrs={'rel':'category tag'})
-        for postTag in postTags:
-            buildTags(postTag.text)
+        if soup.find_all('a', attrs={'rel':'category tag'}):
+            postTags = soup.find_all('a', attrs={'rel':'category tag'})
+            for postTag in postTags:
+                buildTags(postTag.text)
 
         # set <excerpt:encoded>
-        postMetaD = soup.find('meta', attrs={'name':'description'})
-        metaD = etree.SubElement(item, 'excerptencoded')
-        metaD.text = postMetaD['content']
+        if soup.find('meta', attrs={'name':'description'}):
+            postMetaD = soup.find('meta', attrs={'name':'description'})
+            metaD = etree.SubElement(item, 'excerptencoded')
+            metaD.text = postMetaD['content']
 
         # set <content:encoded> 
-        postBody = soup.select('.entry-content')[0]
-        bodyStr = str(postBody)
-        content = etree.SubElement(item, 'contentencoded') 
-        content.text = etree.CDATA(bodyStr)
+        if soup.select('.entry-content')[0]:
+            postBody = soup.select('.entry-content')[0]
+            bodyStr = str(postBody)
+            content = etree.SubElement(item, 'contentencoded') 
+            content.text = etree.CDATA(bodyStr)
 
         # TASK - FIGURE OUT COMMENTS
 
