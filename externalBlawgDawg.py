@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
 # vars to set
-blogRootUrl = "https://coolwebsitedotcom.wordpress.com"
-blogPosts = ["https://coolwebsitedotcom.wordpress.com/2018/06/27/cool-post/", "https://coolwebsitedotcom.wordpress.com/2018/06/18/post-2-selected-same-fi-as-post-1/"]
+blogRootUrl = 'https://coolwebsitedotcom.wordpress.com'
+blogPosts = ['https://coolwebsitedotcom.wordpress.com/2018/06/27/cool-post/', 'https://coolwebsitedotcom.wordpress.com/2018/06/18/post-2-selected-same-fi-as-post-1/']
 # TASK - CAN I SOMEHOW GET THE SELECTORS UP HERE?
 
 index = 1  
@@ -16,20 +16,14 @@ rootLink.text = blogRootUrl
 
 for post in blogPosts:
     page = urlopen(post)
-    soup = BeautifulSoup(page, "html.parser")
+    soup = BeautifulSoup(page, 'html.parser')
     
     # create <item>
-    item = etree.SubElement(channel, "item")
-
-    # set <content:encoded> 
-    postBody = soup.select(".entry-content")[0]
-    bodyStr = str(postBody)
-    content = etree.SubElement(item, 'contentencoded') 
-    content.text = etree.CDATA(bodyStr)
+    item = etree.SubElement(channel, 'item')
 
     # set <title>
-    postTitle = soup.select(".entry-title")[0]
-    title = etree.SubElement(item, "title")
+    postTitle = soup.select('.entry-title')[0]
+    title = etree.SubElement(item, 'title')
     title.text = postTitle.text
 
     # set <pubDate>
@@ -47,11 +41,11 @@ for post in blogPosts:
 
     # set <wp:status>
     status = etree.SubElement(item, 'wpstatus')
-    status.text = "publish"
+    status.text = 'publish'
 
     # set <wp:post_type>
     status = etree.SubElement(item, 'wppost_type')
-    status.text = "post"
+    status.text = 'post'
 
     # set <dc:creator> and create <wp:author>
     # TASK - THIS FEELS REALLY SPECIFIC
@@ -72,20 +66,26 @@ for post in blogPosts:
     for postTag in postTags:
         category = etree.SubElement(item, 'category')
         category.text = etree.CDATA(postTag.text)
-        category.set("domain", "category")
+        category.set('domain', 'category')
         catSlug = category.text.replace(' ', '-')
-        category.set("nicename", catSlug)
+        category.set('nicename', catSlug)
 
     # set <excerpt:encoded>
     postMetaD = soup.find('meta', attrs={'name':'description'})
-    metaD = etree.SubElement(item, "excerptencoded")
-    metaD.text = postMetaD["content"]
+    metaD = etree.SubElement(item, 'excerptencoded')
+    metaD.text = postMetaD['content']
+
+    # set <content:encoded> 
+    postBody = soup.select('.entry-content')[0]
+    bodyStr = str(postBody)
+    content = etree.SubElement(item, 'contentencoded') 
+    content.text = etree.CDATA(bodyStr)
 
     # TASK - FIGURE OUT COMMENTS
 
     index += 1
 
-etree.ElementTree(rss).write("blog.xml", pretty_print=True, xml_declaration=True, encoding='UTF-8')
+etree.ElementTree(rss).write('blog.xml', pretty_print=True, xml_declaration=True, encoding='UTF-8')
 
 def replace_all(text, dic):
     for i, j in dic.items():

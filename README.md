@@ -4,7 +4,7 @@ Python tools for HubSpot blog objects
 __blogDawg.py__ - Turn any external blog into a HubSpot importable XML file  
 __blogFeaturedImageSoup.py__ - Soup featured images from an external blog, upload them to the File Manager, set them as featured for the posts respective HubSpot equivalent  
 
-## externalBlogDawg.py
+## externalBlawgDawg.py
 A Python python to turn any external blog into an XML file which you can import into HubSpot    
 _REQUIRES_  
 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)  
@@ -18,7 +18,7 @@ This Python python requires manually setting a few variables to make sure we can
 `soup.` - There are 5 `soup.` statements which require a selector of the html elements(s) you are getting to grab content from. See the [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) docs to learn more about modifieing these selectors depending on your needs  
 
 ```
-$ python3 externalBlogDawg.py
+$ python3 externalBlawgDawg.py
 ```
 
 ## blogFeaturedImageSoup.py
