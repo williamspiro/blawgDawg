@@ -1,7 +1,7 @@
 # blawgDawg
 Python 3.6.5 tools for HubSpot blog objects 
 
-__blogDawg.py__ - Turn any external blog into a HubSpot importable XML file  
+__externalBlawgDawg.py__ - Turn any external blog into a HubSpot importable XML file  
 __blogFeaturedImageSoup.py__ - Soup featured images from an external blog, upload them to the File Manager, set them as featured for the posts respective HubSpot equivalent  
 
 ## externalBlawgDawg.py
