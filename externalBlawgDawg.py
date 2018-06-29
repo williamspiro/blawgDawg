@@ -22,7 +22,7 @@ for post in blogPosts:
     item = etree.SubElement(channel, 'item')
 
     # set <title>
-    postTitle = soup.select('.entry-title')[0]
+    postTitle = soup.find('title')
     title = etree.SubElement(item, 'title')
     title.text = postTitle.text
 
