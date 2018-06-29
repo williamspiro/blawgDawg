@@ -16,7 +16,7 @@ This Python python requires manually setting a few variables to make sure we can
 `blogRootUrl` - Root URL of the external blog    
 `blogPosts`- Python list of blog urls to import  
 `soup.` - There are 5 `soup.` statements which require a selector of the html elements(s) you are getting to grab content from. See the [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) docs to learn more about modifieing these selectors depending on your needs  
-__soups__  
+### __soups__  
 `soup.find('title')` - you should not need to touch this soup. Finds and prints the `<item>` `<title>` to `blog.xml`
 ```
 <title>This is the post title</title>
@@ -62,15 +62,15 @@ XML setup which happens on its own:
 <rss>
   <channel>
     <item>
-        <link>post link from blogPosts library</link>
-        <wp:post_id><set automatically></wp:post_id>
+        <link>!!post link from blogPosts library!!</link>
+        <wp:post_id>!!set automatically!!</wp:post_id>
         <wp:status>publish</wp:status>
         <wp:post_type>post</wp:post_type>
         <
             !!The above soups fill in here!!
         >
     </item>
-    ... !!for every post in blogPosts library, the above <item> is created
+    ... !!for every post in blogPosts library, the above <item> is created!!
   </channel>
 </rss>
 ```
