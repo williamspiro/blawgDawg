@@ -9,6 +9,28 @@ blogRootUrl = 'https://coolwebsitedotcom.wordpress.com'
 blogPosts = ['https://coolwebsitedotcom.wordpress.com/2018/06/27/cool-post/', 'https://coolwebsitedotcom.wordpress.com/2018/06/18/post-2-selected-same-fi-as-post-1/']
 # TASK - CAN I SOMEHOW GET THE SELECTORS UP HERE?
 
+def replace_all(text, dic):
+    for i, j in dic.items():
+        text = text.replace(i, j)
+    return text
+
+def buildAuthor(autorName):
+    authorList.append(autorName)
+    authorPar = etree.SubElement(channel, 'wpauthor')
+    rootLink.addnext(authorPar)
+    authorParName = etree.SubElement(authorPar, 'wpauthor_display_name') 
+    authorParName.text = etree.CDATA(autorName)
+    authorParlog = etree.SubElement(authorPar, 'wpauthor_login') 
+    authorParlog.text = etree.CDATA(autorName)
+
+def buildTags(tagName):
+    category = etree.SubElement(item, 'category')
+    category.text = etree.CDATA(tagName)
+    category.set('domain', 'category')
+    catSlug = category.text.replace(' ', '-')
+    category.set('nicename', catSlug)
+
+
 index = 1  
 authorList = []
 userAgent= {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'}
@@ -63,22 +85,12 @@ for post in blogPosts:
         author = etree.SubElement(item, 'dccreator')
         author.text = postAuthor.text
         if author.text not in authorList:
-            authorList.append(author.text)
-            authorPar = etree.SubElement(channel, 'wpauthor')
-            rootLink.addnext(authorPar)
-            authorParName = etree.SubElement(authorPar, 'wpauthor_display_name') 
-            authorParName.text = etree.CDATA(postAuthor.text)
-            authorParlog = etree.SubElement(authorPar, 'wpauthor_login') 
-            authorParlog.text = etree.CDATA(postAuthor.text)
+            buildAuthor(author.text)
 
         # set <category>
         postTags = soup.find_all('a', attrs={'rel':'category tag'})
         for postTag in postTags:
-            category = etree.SubElement(item, 'category')
-            category.text = etree.CDATA(postTag.text)
-            category.set('domain', 'category')
-            catSlug = category.text.replace(' ', '-')
-            category.set('nicename', catSlug)
+            buildTags(postTag.text)
 
         # set <excerpt:encoded>
         postMetaD = soup.find('meta', attrs={'name':'description'})
@@ -96,11 +108,6 @@ for post in blogPosts:
         index += 1
 
 etree.ElementTree(rss).write('blog.xml', pretty_print=True, xml_declaration=True, encoding='UTF-8')
-
-def replace_all(text, dic):
-    for i, j in dic.items():
-        text = text.replace(i, j)
-    return text
 
 d = {
     'contentencoded':'content:encoded',
