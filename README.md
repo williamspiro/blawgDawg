@@ -16,21 +16,26 @@ This Python python requires manually setting a few variables to make sure we can
 `blogRootUrl` - Root URL of the external blog    
 `blogPosts`- Python list of blog urls to import  
 `soup.` - There are 5 `soup.` statements which require a selector of the html elements(s) you are getting to grab content from. See the [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) docs to learn more about modifieing these selectors depending on your needs  
-### __soups__  
-`soup.find('title')` - you should not need to touch this soup. Finds and prints the `<item>` `<title>` to `blog.xml`
+## _soups_  
+```
+[html from scrubbed post]
+>>>>>
+[xml output form externalBlawgDawg.py]
+```
+__`soup.find('title')`__ - you should not need to touch this soup. Finds and prints the `<item>` `<title>` to `blog.xml`
 ```
 <title>This is the post title</title>
 >>>>>
 <title>This is the post title</title> 
 ```
-`soup.find('meta', attrs={'name':'description'})` - you should not need to touch this soup. Finds and prints the `<item>` `<excerpt:encoded>` to `blog.xml`  
+__`soup.find('meta', attrs={'name':'description'})`__ - you should not need to touch this soup. Finds and prints the `<item>` `<excerpt:encoded>` to `blog.xml`  
 
 ```
 <meta name="description" content="This is the meta description"> 
 >>>>>
 <excerpt:encoded><![CDATA[This is the meta description]]<excerpt:encoded>
 ```
-`soup.find('a', attrs={'rel':'author'})` - you likely need to change this soup. Finds the author and prints the `<item>` `<dc:creator>`, as well as creates top level `<wp:author>` tags in `blog.xml`
+__`soup.find('a', attrs={'rel':'author'})`__ - you likely need to change this soup. Finds the author and prints the `<item>` `<dc:creator>`, as well as creates top level `<wp:author>` tags in `blog.xml`
 ```
 <a href="link" rel="author">Author</a>
 >>>>>
@@ -41,7 +46,7 @@ This Python python requires manually setting a few variables to make sure we can
     <wp:author_login><![CDATA[Author]]></wp:author_login>
 </wp:author>
 ```
-`soup.find_all('a', attrs={'rel':'category tag'})` - you likely need to change this soup. Finds the tags of a post and prints the `<item>` `<categories>` (sets `nicename`) to `blog.xml`
+__`soup.find_all('a', attrs={'rel':'category tag'})`__ - you likely need to change this soup. Finds the tags of a post and prints the `<item>` `<categories>` (sets `nicename`, etc.) to `blog.xml`
 ```
 <a href="link" rel="category tag">Tag 1</a>
 <a href="link" rel="category tag">Tag 2</a>
@@ -49,7 +54,7 @@ This Python python requires manually setting a few variables to make sure we can
 <category domain="category" nicename="tag-1"><![CDATA[Tag 1]]></category>
 <category domain="category" nicename="tag-2"><![CDATA[Tag 2]]></category>
 ```
-`soup.select('.entry-content')[0]` - you likely need to change this soup. Finds the content of a post and prints the `<item>` `<content:encoded>` to `blog.xml`
+__`soup.select('.entry-content')[0]`__ - you likely need to change this soup. Finds the content of a post and prints the `<item>` `<content:encoded>` to `blog.xml`
 ```
 <div class="entry-content">This is the post body</div>
 >>>>>
