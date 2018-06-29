@@ -61,6 +61,10 @@ XML setup which happens on its own:
 <?xml version='1.0' encoding='UTF-8'?>
 <rss>
   <channel>
+  <link>!!blog root url link from blogRootUrl variable!!</link>
+  <
+    !!<wp:author>s build here!!
+  >
     <item>
         <link>!!post link from blogPosts library!!</link>
         <wp:post_id>!!set automatically!!</wp:post_id>
