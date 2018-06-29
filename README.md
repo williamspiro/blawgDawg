@@ -16,7 +16,64 @@ This Python python requires manually setting a few variables to make sure we can
 `blogRootUrl` - Root URL of the external blog    
 `blogPosts`- Python list of blog urls to import  
 `soup.` - There are 5 `soup.` statements which require a selector of the html elements(s) you are getting to grab content from. See the [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) docs to learn more about modifieing these selectors depending on your needs  
+__soups__  
+`soup.find('title')` - you should not need to touch this soup. Finds and prints the `<item>` `<title>` to `blog.xml`
+```
+<title>This is the post title</title>
+>>>>>
+<title>This is the post title</title> 
+```
+`soup.find('meta', attrs={'name':'description'})` - you should not need to touch this soup. Finds and prints the `<item>` `<excerpt:encoded>` to `blog.xml`  
 
+```
+<meta name="description" content="This is the meta description"> 
+>>>>>
+<excerpt:encoded><![CDATA[This is the meta description]]<excerpt:encoded>
+```
+`soup.find('a', attrs={'rel':'author'})` - you likely need to change this soup. Finds the author and prints the `<item>` `<dc:creator>`, as well as creates top level `<wp:author>` tags in `blog.xml`
+```
+<a href="link" rel="author">Author</a>
+>>>>>
+<dc:creator>Author</dc:creator>
+&
+<wp:author>
+    <wp:author_display_name><![CDATA[Author]]></wp:author_display_name>
+    <wp:author_login><![CDATA[Author]]></wp:author_login>
+</wp:author>
+```
+`soup.find_all('a', attrs={'rel':'category tag'})` - you likely need to change this soup. Finds the tags of a post and prints the `<item>` `<categories>` (sets `nicename`) to `blog.xml`
+```
+<a href="link" rel="category tag">Tag 1</a>
+<a href="link" rel="category tag">Tag 2</a>
+>>>>>
+<category domain="category" nicename="tag-1"><![CDATA[cTag 1]]></category>
+<category domain="category" nicename="tag-2"><![CDATA[Tag 2]]></category>
+```
+`soup.select('.entry-content')[0]` - you likely need to change this soup. Finds the content of a post and prints the `<item>` `<content:encoded>` to `blog.xml`
+```
+<div class="entry-content">This is the post body</div>
+>>>>>
+<content:encoded><![CDATA[This is the post body]]</content:encoded><
+```
+
+XML setup which happens on its own:
+```
+<?xml version='1.0' encoding='UTF-8'?>
+<rss>
+  <channel>
+    <item>
+        <link>post link from blogPosts library</link>
+        <wp:post_id><set automatically></wp:post_id>
+        <wp:status>publish</wp:status>
+        <wp:post_type>post</wp:post_type>
+        <
+            !!The above soups fill in here!!
+        >
+    </item>
+    ... !!for every post in blogPosts library, the above <item> is created
+  </channel>
+</rss>
+```
 ```
 $ python3 externalBlawgDawg.py
 ```
