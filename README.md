@@ -46,7 +46,7 @@ This Python python requires manually setting a few variables to make sure we can
 <a href="link" rel="category tag">Tag 1</a>
 <a href="link" rel="category tag">Tag 2</a>
 >>>>>
-<category domain="category" nicename="tag-1"><![CDATA[cTag 1]]></category>
+<category domain="category" nicename="tag-1"><![CDATA[Tag 1]]></category>
 <category domain="category" nicename="tag-2"><![CDATA[Tag 2]]></category>
 ```
 `soup.select('.entry-content')[0]` - you likely need to change this soup. Finds the content of a post and prints the `<item>` `<content:encoded>` to `blog.xml`
