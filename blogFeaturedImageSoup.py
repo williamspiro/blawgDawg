@@ -24,9 +24,10 @@ for x in postsToSoupScrubKitten:
     fileUrl = fileObject.json()["url"]
     print (f"Created file URL {fileUrl}")
 
-    blogsGetSearchUrlParams = (f"{queryParams}&slug={slug}&property=slug&property=id")
-    blogsGetSearchUrl = (f"{apiBase}/blogs/v3/blog-posts")
+    blogsGetSearchUrlParams = (f"access_token={accessToken}&slug__icontains={slug}&property=slug&property=id")
+    blogsGetSearchUrl = (f"{apiBase}blogs/v3/blog-posts")
     blogSearchObject = requests.get(blogsGetSearchUrl, params=blogsGetSearchUrlParams)
+    print (blogSearchObject)
     postIds = blogSearchObject.json()["objects"]
     postId = postIds[0]["id"]
     print (f"Found post id {postId} with slug {slug}")
